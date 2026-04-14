@@ -1,0 +1,26 @@
+name: ShivVerse-Bot
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Deps
+        run: pip install google-api-python-client google-auth requests
+      - name: Run Script
+        env:
+          GDRIVE_CREDENTIALS: ${{ secrets.GDRIVE_CREDENTIALS }}
+          IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
+          SUPABASE_URL_1: ${{ secrets.SUPABASE_URL_1 }}
+          SUPABASE_KEY_1: ${{ secrets.SUPABASE_KEY_1 }}
+          SUPABASE_URL_2: ${{ secrets.SUPABASE_URL_2 }}
+          SUPABASE_KEY_2: ${{ secrets.SUPABASE_KEY_2 }}
+        run: python bot.py
